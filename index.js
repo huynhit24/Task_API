@@ -21,8 +21,8 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/api/todo/auth', require('./routes/user'));
-app.use('/api/todo', require('./routes/todo'));
+app.use('/api/task/auth', require('./routes/user'));
+app.use('/api/task', require('./routes/task'));
 
 const PORT = process.env.PORT || 3000;
 

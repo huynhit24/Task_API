@@ -1,84 +1,90 @@
 const Task = require('../models/Task');
 
 const taskController = {
+
+    //create a task
     createTask: async (req, res, next) => {
         try {
-            const toDo = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id});
-            if(!toDo) {
+            const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id});
+            if(!task) {
                 return res.status(400).json({
                     success: false,
-                    msg: 'Something went wrong'
+                    msg: 'Something went wrong!'
                 });
             }
     
             res.status(200).json({
                 success: true,
-                todo: toDo,
-                msg: 'Successfully created.'
+                task: task,
+                msg: 'Successfully created!'
             });
         } catch (error) {
             next(error);
         }
     },
 
+    //get all tasks
     getAllTasks: async(req, res, next) => {
         try {
-            const todo = await Task.find({user: req.user.id, finished: false});
+            const task = await Task.find({user: req.user.id, finished: false});
     
-            if(!todo) {
-                return res.status(400).json({ success: false, msg: 'Something error happened'});
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Something error happened!'});
             }
     
-            res.status(200).json({ success: true, count: todo.length, todos: todo, msg: 'Successfully fetched'})
+            res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
         } catch (error) {
             next(error);
         }
     },
 
+    //get all tasks finished
     getAllTasksFinished: async(req, res, next) => {
         try {
-            const todo = await Task.find({user: req.user.id, finished: true});
+            const task = await Task.find({user: req.user.id, finished: true});
     
-            if(!todo) {
-                return res.status(400).json({ success: false, msg: 'Something error happened'});
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Something error happened!'});
             }
     
-            res.status(200).json({ success: true, count: todo.length, todos: todo, msg: 'Successfully fetched'})
+            res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
         } catch (error) {
             next(error);
         }
     },
 
+    //update a task
     updateTask: async (req, res, next) => {
         try {
-            let toDo = await Task.findById(req.params.id);
-            if(!toDo) {
-                return res.status(400).json({ success: false, msg: 'Task Task not exits' });
+            let task = await Task.findById(req.params.id);
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Task not exists!' });
             }
     
-            toDo = await Task.findByIdAndUpdate(req.params.id, req.body, {
+            task = await Task.findByIdAndUpdate(req.params.id, req.body, {
                 new: true,
                 runValidators: true
             });
     
-            res.status(200).json({ success: true,todo: toDo, msg: 'Successfully updated' });
+            res.status(200).json({ success: true,task: task, msg: 'Successfully updated!' });
             
         } catch (error) {
             next(error);
         }
     },
 
+    //delete a task
     deleteTask: async (req, res, next) => {
         try {
-            let toDo = await Task.findById(req.params.id);
-            if(!toDo) {
-                return res.status(400).json({ success: false, msg: 'Task Task not exits' });
+            let task = await Task.findById(req.params.id);
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Task not exists!' });
             }
         
-            toDo = await Task.findByIdAndDelete(req.params.id);
+            task = await Task.findByIdAndDelete(req.params.id);
         
             res.status(200).json({
-                success: true, msg: 'Successfully Deleted task.'
+                success: true, msg: 'Successfully deleted task!'
             });
         } catch (error) {
             next(error);

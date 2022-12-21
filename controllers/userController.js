@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const userController = {
 
+    //get info user
     getUser: async (req, res, next) => {
 
         try {
@@ -24,6 +25,7 @@ const userController = {
 
     },
 
+    //user register app
     registerUser: async (req, res, next) => {
 
         const { username, email, password } = req.body;
@@ -79,6 +81,7 @@ const userController = {
 
     },
 
+    //user login app
     loginUser: async (req, res, next) => {
         const email = req.body.email;
         const password = req.body.password;

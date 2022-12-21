@@ -21,8 +21,11 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: Boolean,
-    },   
+    },
     avatar: {
+        type: String
+    },  
+    image: {
         data: Buffer,
         contentType: String,
     },
