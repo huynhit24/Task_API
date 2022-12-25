@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth_jwt');
+const auth = require('../middleware/verifyToken');
 const taskController = require('../controllers/taskController');
 
 // desc    Create new todo task

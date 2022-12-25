@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth_jwt = require('../middleware/auth_jwt');
+const auth_jwt = require('../middleware/verifyToken');
 const userController = require("../controllers/userController");
 
 // desc    Get info User
