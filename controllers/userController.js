@@ -138,7 +138,27 @@ const userController = {
                 msg: 'Server Error!'
             })
         }
-    }
+    },
+
+    //update a user by id
+    updateUser: async (req, res, next) => {
+        try {
+            let user = await User.findById(req.params.id);
+            if(!user) {
+                return res.status(400).json({ success: false, msg: 'User not exists!' });
+            }
+    
+            user = await User.findByIdAndUpdate(req.params.id, req.body, {
+                new: true,
+                runValidators: true
+            });
+    
+            res.status(200).json({ success: true,user: user, msg: 'Successfully updated!' });
+            
+        } catch (error) {
+            next(error);
+        }
+    },
 }
 
 module.exports = userController;

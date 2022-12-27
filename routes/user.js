@@ -3,16 +3,20 @@ const router = express.Router();
 const auth_jwt = require('../middleware/verifyToken');
 const userController = require("../controllers/userController");
 
-// desc    Get info User
+// Get info User
 // method GET
 router.get('/', auth_jwt, userController.getUser);
 
-// desc    Register user
+// Register user
 // method POST
 router.post('/register', userController.registerUser);
 
-// desc    User login
+// User login
 // method POST
 router.post('/login', userController.loginUser);
+
+// update User
+// method PUT
+router.put('/:id', auth_jwt, userController.updateUser);
 
 module.exports = router;
