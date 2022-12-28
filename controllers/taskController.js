@@ -7,6 +7,9 @@ const taskController = {
     createTask: async (req, res, next) => {
         try {
             const dateString = req.body.duedateAt;
+            if(dateString == undefined || dateString == null || dateString == "") {
+                req.body.duedateAt = Date.now;
+            }
             const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
             if(!task) {
@@ -110,6 +113,9 @@ const taskController = {
             }
             //format duedateAt form DD/MM/YYYY to timestamp
             const dateString = req.body.duedateAt;
+            if(dateString == undefined || dateString == null || dateString == "") {
+                req.body.duedateAt = Date.now;
+            }
             const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             //update task
             req.body.duedateAt = dateMomentObject.toDate();
