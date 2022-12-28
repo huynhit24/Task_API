@@ -6,12 +6,12 @@ const taskController = {
     //create a task
     createTask: async (req, res, next) => {
         try {
-            const dateString = req.body.duedateAt;
+            let dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
                 dateString = Date.now;
             }
-            const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
-            const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
+            let dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
+            let task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
             if(!task) {
                 return res.status(400).json({
                     success: false,
@@ -92,7 +92,7 @@ const taskController = {
     //get all tasks with the word to be searched for
     getAllTasksByTextSearch: async(req, res, next) => {
         try {
-            const title_task_search = req.query.title;
+            let title_task_search = req.query.title;
             const task = await Task.find({title: { $regex: `${title_task_search}`, $options: 'i' }, user: req.user.id, finished: false });
             if(!task) {
                 return res.status(400).json({ success: false, msg: 'Something error happened!'});
@@ -112,11 +112,11 @@ const taskController = {
                 return res.status(400).json({ success: false, msg: 'Task not exists!' });
             }
             //format duedateAt form DD/MM/YYYY to timestamp
-            const dateString = req.body.duedateAt;
+            let dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
                 dateString = Date.now;
             }
-            const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
+            let dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             //update task
             req.body.duedateAt = dateMomentObject.toDate();
             console.log(req.body.duedateAt);
