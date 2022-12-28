@@ -1,11 +1,14 @@
 const Task = require('../models/Task');
+const moment = require('moment');
 
 const taskController = {
 
     //create a task
     createTask: async (req, res, next) => {
         try {
-            const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id});
+            const dateString = req.body.duedateAt;
+            const dateMomentObject = moment(dateString, "DD/MM/YYYY");
+            const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
             if(!task) {
                 return res.status(400).json({
                     success: false,
