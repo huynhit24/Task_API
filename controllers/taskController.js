@@ -38,6 +38,36 @@ const taskController = {
         }
     },
 
+    //get all tasks was sorted ascending
+    getAllTasksAscSorted: async(req, res, next) => {
+        try {
+            const task = await Task.find({user: req.user.id, finished: false}).sort({createdAt: 1});
+    
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Something error happened!'});
+            }
+    
+            res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    //get all tasks was sorted descending
+    getAllTasksDescSorted: async(req, res, next) => {
+        try {
+            const task = await Task.find({user: req.user.id, finished: false}).sort({createdAt: -1});
+    
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Something error happened!'});
+            }
+    
+            res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
+        } catch (error) {
+            next(error);
+        }
+    },
+
     //get all tasks finished
     getAllTasksFinished: async(req, res, next) => {
         try {

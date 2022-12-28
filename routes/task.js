@@ -11,6 +11,14 @@ router.post('/', auth, taskController.createTask);
 //mehod  GET
 router.get('/', auth, taskController.getAllTasks);
 
+// Fetch all todos
+//mehod  GET
+router.get('/ascsort', auth, taskController.getAllTasksAscSorted);
+
+// Fetch all todos
+//mehod  GET
+router.get('/descsort', auth, taskController.getAllTasksDescSorted);
+
 // Fetch all todos of finished: true
 //mehod  GET
 router.get('/finished', auth, taskController.getAllTasksFinished);
@@ -22,4 +30,6 @@ router.put('/:id', taskController.updateTask);
 // Delete a task todo
 // method Delete
 router.delete('/:id', taskController.deleteTask);
+
+
 module.exports = router;
