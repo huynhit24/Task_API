@@ -11,17 +11,21 @@ router.post('/', auth, taskController.createTask);
 //mehod  GET
 router.get('/', auth, taskController.getAllTasks);
 
-// Fetch all todos
+// Fetch all todos ascending
 //mehod  GET
 router.get('/ascsort', auth, taskController.getAllTasksAscSorted);
 
-// Fetch all todos
+// Fetch all todos descending
 //mehod  GET
 router.get('/descsort', auth, taskController.getAllTasksDescSorted);
 
 // Fetch all todos of finished: true
 //mehod  GET
 router.get('/finished', auth, taskController.getAllTasksFinished);
+
+// Fetch all todos of finished: true
+//mehod  GET
+router.get('/search', auth, taskController.getAllTasksByTextSearch);
 
 // Update a task 
 // method PUT

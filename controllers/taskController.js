@@ -1,5 +1,5 @@
 const Task = require('../models/Task');
-const moment = require('moment');
+const moment = require('moment');// dùng thư viện này để định dạng DateTime
 
 const taskController = {
 
@@ -34,7 +34,7 @@ const taskController = {
             if(!task) {
                 return res.status(400).json({ success: false, msg: 'Something error happened!'});
             }
-    
+
             res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
         } catch (error) {
             next(error);
@@ -86,6 +86,21 @@ const taskController = {
         }
     },
 
+    //get all tasks with the word to be searched for
+    getAllTasksByTextSearch: async(req, res, next) => {
+        try {
+            const title_task_search = req.query.title;
+            const task = await Task.find({title: { $regex: `${title_task_search}`, $options: 'i' }, user: req.user.id, finished: false });
+            if(!task) {
+                return res.status(400).json({ success: false, msg: 'Something error happened!'});
+            }
+            
+            res.status(200).json({ success: true, count: task.length, tasks: task, msg: 'Successfully fetched!'})
+        } catch (error) {
+            next(error);
+        }
+    },
+
     //update a task
     updateTask: async (req, res, next) => {
         try {
@@ -98,8 +113,8 @@ const taskController = {
             const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             //update task
             req.body.duedateAt = dateMomentObject.toDate();
-            // console.log(req.body.duedateAt);
-            // console.log(moment().format('DD/MM/YYYY HH:mm:ss'));
+            console.log(req.body.duedateAt);
+            console.log(moment().format('DD/MM/YYYY HH:mm:ss'));
             task = await Task.findByIdAndUpdate(req.params.id, req.body, {
                 new: true,
                 runValidators: true
