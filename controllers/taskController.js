@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const moment = require('moment');// dùng thư viện này để định dạng DateTime
+const { ISO_8601 } = require('moment');
 
 const taskController = {
 
@@ -8,7 +9,9 @@ const taskController = {
         try {
             let dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
-                dateString = Date.now;
+                let dateDefault = moment();
+                dateDefault.format(); // "2022-12-28T08:02:17-05:00"
+                dateString = dateDefault;
             }
             let dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             let task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
@@ -114,7 +117,9 @@ const taskController = {
             //format duedateAt form DD/MM/YYYY to timestamp
             let dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
-                dateString = Date.now;
+                let dateDefault = moment();
+                dateDefault.format(); // "2022-12-28T08:02:17-05:00"
+                dateString = dateDefault;
             }
             let dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             //update task
