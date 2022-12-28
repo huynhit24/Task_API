@@ -8,7 +8,7 @@ const taskController = {
         try {
             const dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
-                req.body.duedateAt = Date.now;
+                dateString = Date.now;
             }
             const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
@@ -47,7 +47,7 @@ const taskController = {
     //get all tasks was sorted ascending
     getAllTasksAscSorted: async(req, res, next) => {
         try {
-            const task = await Task.find({user: req.user.id, finished: false}).sort({createdAt: 1});
+            const task = await Task.find({user: req.user.id, finished: false}).sort({duedateAt: 1});
     
             if(!task) {
                 return res.status(400).json({ success: false, msg: 'Something error happened!'});
@@ -62,7 +62,7 @@ const taskController = {
     //get all tasks was sorted descending
     getAllTasksDescSorted: async(req, res, next) => {
         try {
-            const task = await Task.find({user: req.user.id, finished: false}).sort({createdAt: -1});
+            const task = await Task.find({user: req.user.id, finished: false}).sort({duedateAt: -1});
     
             if(!task) {
                 return res.status(400).json({ success: false, msg: 'Something error happened!'});
@@ -114,7 +114,7 @@ const taskController = {
             //format duedateAt form DD/MM/YYYY to timestamp
             const dateString = req.body.duedateAt;
             if(dateString == undefined || dateString == null || dateString == "") {
-                req.body.duedateAt = Date.now;
+                dateString = Date.now;
             }
             const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             //update task
