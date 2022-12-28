@@ -7,7 +7,7 @@ const taskController = {
     createTask: async (req, res, next) => {
         try {
             const dateString = req.body.duedateAt;
-            const dateMomentObject = moment(dateString, "DD/MM/YYYY");
+            const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
             const task = await Task.create({ title: req.body.title, description: req.body.description, user: req.user.id, duedateAt: dateMomentObject.toDate()});
             if(!task) {
                 return res.status(400).json({
@@ -93,7 +93,13 @@ const taskController = {
             if(!task) {
                 return res.status(400).json({ success: false, msg: 'Task not exists!' });
             }
-    
+            //format duedateAt form DD/MM/YYYY to timestamp
+            const dateString = req.body.duedateAt;
+            const dateMomentObject = moment(dateString, "DD/MM/YYYY HH:mm:ss");
+            //update task
+            req.body.duedateAt = dateMomentObject.toDate();
+            // console.log(req.body.duedateAt);
+            // console.log(moment().format('DD/MM/YYYY HH:mm:ss'));
             task = await Task.findByIdAndUpdate(req.params.id, req.body, {
                 new: true,
                 runValidators: true
